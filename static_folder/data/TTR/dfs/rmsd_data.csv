@@ -1,0 +1,7 @@
+,RMSD
+"('CRYO-EM-TTR.pdb', 'TTR_from_PDB.pdb')",25.653276443481445
+"('CRYO-EM-TTR.pdb', 'X-RAY_TTR.pdb')",25.653276443481445
+"('CRYO-EM-TTR.pdb', 'ROSETTA_pred_TTR.pdb')",25.653276443481445
+"('TTR_from_PDB.pdb', 'X-RAY_TTR.pdb')",0.0
+"('TTR_from_PDB.pdb', 'ROSETTA_pred_TTR.pdb')",0.0
+"('X-RAY_TTR.pdb', 'ROSETTA_pred_TTR.pdb')",0.0

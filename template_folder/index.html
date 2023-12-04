@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CS279 Project</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="sidenav">
+    <h2>CS 279</h2>
+    <h3>Fall 2023, comparing protein folding methodology for the {{dataName}} Protein</h3>
+</div>
+
+<div class="content">
+    <div class="images-section">
+        {% for image in images %}
+        <div class="image-box">
+            <img src="/data/{{dataName}}/images/{{image}}">
+            <p>{{ image }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Graph Section -->
+    <div class="graph-box">
+        <canvas id="rmsd_plot"></canvas>
+    </div>
+
+    <!-- Graph Section -->
+    <div class="graph-box">
+        <canvas id="sasa_plot"></canvas>
+    </div>
+</div>
+
+<script>
+    const ctx = document.getElementById('rmsd_plot').getContext('2d');
+    const rmsdChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ labels_rmsd | tojson }},
+            datasets: [{
+                label: 'RMSD Values',
+                data: {{ data_rmsd | tojson }},
+                backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                borderColor: 'rgba(0, 123, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'RMSD Bar Chart'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    const sasaCtx = document.getElementById('sasa_plot').getContext('2d');
+    const sasaChart = new Chart(sasaCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ labels_sasa | tojson }},
+            datasets: [{
+                label: 'SASA Values',
+                data: {{ data_sasa | tojson }},
+                backgroundColor: 'rgba(255, 159, 64, 0.5)', 
+                borderColor: 'rgba(255, 159, 64, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'SASA Bar Chart'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+
+</body>
+</html>
