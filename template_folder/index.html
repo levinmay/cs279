@@ -11,33 +11,79 @@
 
 <div class="sidenav">
     <h2>CS 279</h2>
-    <h3>Fall 2023, comparing protein folding methodology for the {{dataName}} Protein</h3>
+    <h3>Comparing protein folding methodology for the {{dataName}} Protein</h3>
+    <h4>May Levin, Emma Williamson, Joseph Allen</h4>
+    <h5>Fall 2023</h5>
 </div>
 
 <div class="content">
+
     <div class="images-section">
         {% for image in images %}
         <div class="image-box">
+            <h3>{{ image[:-4] }}</h3>
             <img src="/data/{{dataName}}/images/{{image}}">
-            <p>{{ image }}</p>
         </div>
         {% endfor %}
     </div>
+
+
+    <div class="section-title">
+        <p>The Poisson-Boltzmann equation calculates the relative electrostatic potential across the surface of a given structure. Blue represents positively-charged areas while red represents negatively-charged areas.</p>
+    <div class="images-section"> 
+        {% for image in images %}
+        <div class="image-box">
+            <img src="/data/{{dataName}}/apbs/{{image[:-4]}}_apbs.png">
+        </div>
+        {% endfor %}
+    </div>
+    </div>
     
+    <div class="section-title">
+        <p>Contact maps are 2D representations of 3D structures. Contact maps represent the pairwise distance between every residue in the structure</p>
+    <div class="images-section">
+          {% for image in images %}
+        <div class="image-box">
+            <img src="/data/{{dataName}}/contact/{{image[:-4]}}_contact.png">
+        </div>
+        {% endfor %}
+    </div>
+    </div>
+
     <!-- Graph Section -->
+    <div class="graph-text-container">
     <div class="graph-box">
         <canvas id="rmsd_plot"></canvas>
     </div>
+        <div class="text-box">
+            <p>RMSD is the most basic quantitative way of comparing two structures. It is simply the average distance in three-dimensional space between two points</p>
+        </div>
+    </div>
 
     <!-- Graph Section -->
-    <div class="graph-box">
-        <canvas id="sasa_plot"></canvas>
-    </div>
-</div>
+    <div class="graph-text-container">
+        <div class="text-box">
+            <p>The Template Modeling (TM) score is a more rigorous quantitative comparison of two structures. Its calculation tends to better reflect global similarity than RMSD. The score ranges from 0 (no similarity) to 1 (near perfect similarity).</p>
+            </div>
+        <div class="graph-box">
+            <canvas id="TM_plot"></canvas>
+        </div>
+            
+        </div>
+
+    <!-- Graph Section -->
+    <div class="graph-text-container">
+        <div class="graph-box">
+            <canvas id="sasa_plot"></canvas>
+        </div>
+        <div class="text-box">
+            <p>Solvent-accessible surface area (SASA) represents the portion of a structure that is in contact with its surrounding solution.</p>
+        </div> 
+        </div>
 
 <script>
-    const ctx = document.getElementById('rmsd_plot').getContext('2d');
-    const rmsdChart = new Chart(ctx, {
+    const ctxRMSD = document.getElementById('rmsd_plot').getContext('2d');
+    const rmsdChart = new Chart(ctxRMSD, {
         type: 'bar',
         data: {
             labels: {{ labels_rmsd | tojson }},
@@ -68,8 +114,42 @@
         }
     });
 
-    const sasaCtx = document.getElementById('sasa_plot').getContext('2d');
-    const sasaChart = new Chart(sasaCtx, {
+
+    const ctxTM = document.getElementById('TM_plot').getContext('2d');
+    const tmChart = new Chart(ctxTM, {
+        type: 'bar',
+        data: {
+            labels: {{ labels_rmsd | tojson }},
+            datasets: [{
+                label: 'TM Values',
+                data: {{ data_TM | tojson }},
+                backgroundColor: 'rgba(0, 255, 0, 0.5)', // Light green background
+                borderColor: 'rgba(0, 255, 0, 1)', 
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'TM Bar Chart'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+
+    const ctxSASA = document.getElementById('sasa_plot').getContext('2d');
+    const sasaChart = new Chart(ctxSASA, {  
         type: 'bar',
         data: {
             labels: {{ labels_sasa | tojson }},

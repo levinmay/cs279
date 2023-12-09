@@ -1,0 +1,7 @@
+,TM Score
+"('HEMO-AF.pdb', 'HEMO-ROSETTA.pdb')",0.1656
+"('HEMO-AF.pdb', 'HEMO-Xray.pdb')",0.9906
+"('HEMO-AF.pdb', 'HEMO-CRYOEM.pdb')",0.9641
+"('HEMO-ROSETTA.pdb', 'HEMO-Xray.pdb')",0.156
+"('HEMO-ROSETTA.pdb', 'HEMO-CRYOEM.pdb')",0.155
+"('HEMO-Xray.pdb', 'HEMO-CRYOEM.pdb')",0.97
